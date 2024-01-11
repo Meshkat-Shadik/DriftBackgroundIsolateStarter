@@ -2,12 +2,11 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'package:drift_background_isolate_starter/db/dao/user_db_dao.dart';
+import 'package:drift_background_isolate_starter/isolate/isolate_utils.dart';
 import 'package:drift_background_isolate_starter/isolate/my_isolate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'db/main_db.dart';
-import 'model/user_dto.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Drift Background Isolate Starter'),
     );
   }
 }
@@ -71,11 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title), centerTitle: true),
       body: Column(
         children: [
           Text(
-            '$_counter',
+            'Total Users: $_counter',
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(height: 10),
@@ -120,13 +119,12 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () async {
               //randomID between 1 and 10
               final apiID = 1 + Random().nextInt(10 - 1);
-              final parsedData = UserDto(
-                id: apiID,
-                name: "name",
-                username: "username",
-                email: "email",
-              );
-              final response1 = await dao.addUser(parsedData);
+              final user = await getUsersFromApi(apiID);
+
+              //do a heavy task
+              for (var i = 0; i < 1200000000; i++) {}
+
+              final response1 = await dao.addUser(user!);
               debugPrint(response1.toString());
               await loadUsers();
               await loadCount();

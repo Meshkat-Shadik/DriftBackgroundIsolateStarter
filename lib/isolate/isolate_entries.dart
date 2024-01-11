@@ -16,6 +16,10 @@ Future<void> isolateEntryPoint(List<Object> args) async {
 
     // Make the network call
     final users = await getUsersFromApi(apiID);
+
+    //do a heavy task
+    for (var i = 0; i < 1200000000; i++) {}
+
     debugPrint('users $users');
     if (users == null) {
       sendPort.send(null);
