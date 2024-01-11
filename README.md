@@ -1,16 +1,19 @@
 # drift_background_isolate_starter
 
-A new Flutter project.
+## Overview
+This code uses Dart's `Isolate` to perform heavy tasks like network requests and database operations in the background, keeping the app's UI responsive. It's useful in scenarios where maintaining a smooth UI is crucial while performing time-consuming operations. 😊
 
-## Getting Started
+## Details of this approach
+This repo uses isolates to perform heavy tasks in the background. It fetches user data from an API, performs a computational task, and inserts the data into a database, all within an isolate. The UI remains responsive, listening for messages from the isolate. When a 'done' message is received, it shows a snackbar and loads the user data. This approach keeps the UI smooth while performing time-consuming operations. 
+To check the UI is smooth or not, I've added a `CircularProgressIndicator` to check, it the loading indicator is running smoothly or not!
 
-This project is a starting point for a Flutter application.
+## Flow of the app
+<img width="1652" alt="image" src="https://github.com/Meshkat-Shadik/DriftBackgroundIsolateStarter/assets/31488481/daa53717-abb0-4d0f-8e30-f2dc86dc0f63">
 
-A few resources to get you started if this is your first Flutter project:
+## Video Representation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+[background_isolate.webm](https://github.com/Meshkat-Shadik/DriftBackgroundIsolateStarter/assets/31488481/a0694798-2e4d-4ea5-b58e-b1ca9614e0e1)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Point to be noted
+- In the first button clicked, I did all the computation on the Main Isolate, so we can see there is a bit `laggy-effect` on the `CircularProgressIndicator` when the computation is running on the MainIsolate.
+- But in the second button, all things executed in the `BackgroundIsolate` so that there is `no laggy-effect` on the `CircularProgressIndicator`.
